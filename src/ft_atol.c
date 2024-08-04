@@ -1,60 +1,32 @@
-#include "../include/push_swap.h"
+#include <push_swap.h>
 
-static long long	pow_ten(int c)
-{
-	if (c == 0)
-		return (1);
-	else
-		return (10 * pow_ten(c - 1));
+bool	is_space(char c)
+{ 
+	return ((c >= 8 && c <= 13) || c == 32);
 }
 
-static char	*validate_str(const char *str, int *isnegative)
+long long int	ft_atol(const char *s)
 {
-	while ((*str >= 9 && *str <= 13) || *str == 32)
-	{
-		str++;
-	}
-	if (*str == '+' || *str == '-')
-	{
-		if (*str == '-')
-			*isnegative = -1;
-		str++;
-	}
-	return ((char *)str);
-}
-
-static long long	len_digit(char *s)
-{
-	int	i;
+	long long int	number;
+	long long int	sign;
+	int		i;
 
 	i = 0;
-	while (ft_isdigit(*s))
+	sign = 1;
+	while (s[i] && is_space(s[i]))
+		++i;
+	if (s[i] == '-' || s[i] == '+')
 	{
-		i++;
-		s++;
+		if (s[i] == '-')
+			sign = -1;
+		++i;
 	}
-	return (i);
-}
-
-long long	ft_atol(const char *nptr)
-{
-	long long	len_nptr;
-	long long	val_ret;
-	char		*ch_nptr;
-	int		signe;
-
-	val_ret = 0;
-	signe = 1;
-	ch_nptr = (char *)nptr;
-	ch_nptr = validate_str(nptr, &signe);
-	if (*nptr == '\0')
-		return (0);
-	len_nptr = len_digit(ch_nptr);
-	while (len_nptr && ft_isdigit(*ch_nptr))
+	number = 0;
+	while (s[i])
 	{
-		val_ret += ((*ch_nptr) - 48) * pow_ten(len_nptr - 1);
-		len_nptr--;
-		ch_nptr++;
+		number *= 10;
+		number += s[i] - '0';
+		++i;
 	}
-	return (val_ret * signe);
+	return (sign * number);
 }

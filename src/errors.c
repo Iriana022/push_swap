@@ -1,21 +1,47 @@
-#include "../include/push_swap.h"
-
-void	check_error(char *s)
-{
-	int	i;
-
-	i = -1;
-	while (s[++i])
-	{
-		if (!ft_isdigit(s[i]))
-			show_error_mess();
-	}
-}
+#include <push_swap.h>
 
 void	show_error_mess(void)
 {
 	ft_printf("Error\n");
 	exit(1);
+}
+
+void	check_double(t_data *data)
+{
+	t_data	*curr;
+	t_data	*tmp;
+
+	curr = data;
+	while (curr)
+	{
+		tmp = curr->next;
+		while (tmp)
+		{
+			if (curr->content == tmp->content)
+				show_error_mess();
+			tmp = tmp->next;
+		}
+		curr = curr->next;
+	}
+}
+
+void	check_error(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (i == 0 && (s[i] == '-' || s[i] == '+'))
+			++i;
+		else if (!ft_isdigit(s[i]))
+		{
+			show_error_mess();
+			++i;
+		}
+		else
+			++i;
+	}
 }
 
 size_t	count_size(int ac, char **av)
@@ -40,14 +66,6 @@ size_t	count_size(int ac, char **av)
 	return (counter);
 }
 
-void	check_double(int ac, char **av)
-{
-	int	*tab;
-	int	size;
-
-	size = count_size(ac, av);
-}
-
 /*
  * Return error if 
  *  - some parameters are not number
@@ -56,10 +74,10 @@ void	check_double(int ac, char **av)
  */
 void	handle_errors(int ac, char **av)
 {
-	int 	i;
-	int	j;
-	int	n;
-	char	**arg;
+	int 		i;
+	int		j;
+	long long int	n;
+	char		**arg;
 
 	i = 0;
 	while (++i < ac)
@@ -72,10 +90,9 @@ void	handle_errors(int ac, char **av)
 		{
 			check_error(arg[j]);
 			n = ft_atol(arg[j]);
-			printf("%d\n", n);
 			if (!(n >= INT_MIN && n <= INT_MAX))
 				show_error_mess();
 		}
 	}
-	check_double(ac, av);
+	//free(arg);
 }

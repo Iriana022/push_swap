@@ -1,6 +1,7 @@
 ### ARGUMENTS
 NAME = push_swap
-SRC = src/main.c src/errors.c src/ft_atol.c
+SRC = main.c errors.c ft_atol.c init.c utils.c swap_push.c rotate.c little_sort.c sort.c
+SRC_FILES = $(addprefix src/, $(SRC))
 CC = cc
 CFLAGS = -Wall -Wextra ##-Werror
 RM = rm -rf
@@ -9,9 +10,9 @@ RM = rm -rf
 
 all: $(NAME)
 
-$(NAME): $(SRC)
+$(NAME): $(SRC_FILES)
 	make -C ./ft_printf
-	$(CC) $(CFLAGS) $(SRC) -o $(NAME) -Lft_printf -lftprintf
+	$(CC) $(CFLAGS) -I./include $(SRC_FILES) -o $(NAME) -Lft_printf -lftprintf
 
 clean:
 	make -C ./ft_printf
